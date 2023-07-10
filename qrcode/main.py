@@ -1,7 +1,7 @@
-#  TODO: Zrobić dziennik z kolorami, aby użytkownik mógł wybierać z niego kolory.
+#  TODO:
 
 import qrcode
-print("Available colors: red, orange, yellow, green,\n light-blue, blue, purple, pink, magenta")
+
 qr = qrcode.QRCode(
     version=3,
     error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -23,15 +23,47 @@ print(colors['red'])
 
 print("Hello! Welcome to qrcode generator!!!")
 link = input("Please insert a link: ")
+name = input("Please name your qr code: ")
 print("Thank you!")
 print("Do you want to change qrcode color? (by default it is white and black)")
 colorchange = input("Y/n: ")
+colorchange = colorchange.upper()
+
+color = None
 
 
 if colorchange == "Y":
-    print("Available colors: red, orange, yellow, green, light-blue,\nblue, purple, pink, magenta")
-    color = input("Pick a color: ")
-    qrcode = qr.make_image(back_color=(255, 255, 255), fill_color=(0, 0, 0))
+    while color not in colors:  # ta pentla każe wybrać kolor, jak ktoś nie wybierze to zapentla
+        print("Available colors: red, orange, yellow, green, light-blue,\nblue, purple, pink, magenta")
+        color = input("Pick a color: ").lower()
+        rgb_value = None
 
-qrcode = qr.make(link)
-qrcode.save('test.png')
+    if color == "red":
+        rgb_value == 255, 255, 255
+
+    # match color:
+    #     case "red":
+    #         rgb_value = 255, 255, 255
+    #     case "orange":
+    #         rgb_value = 255, 128, 0
+    #     case "yellow":
+    #         rgb_value = 255, 255, 0
+    #     case "green":
+    #         rgb_value = 0, 255, 0
+    #     case "light-blue":
+    #         rgb_value = 0, 255, 255
+    #     case "blue":
+    #         rgb_value = 0, 0, 255
+    #     case "purple":
+    #         rgb_value = 128, 0, 255
+    #     case "pink":
+    #         rgb_value = 255, 0, 255
+    #     case "magenta":
+    #         rgb_value = 255, 0, 191
+    #
+
+    qrcode = qr.make_image(back_color=(rgb_value), fill_color=(rgb_value))
+    qrcode.save(name + '.png')
+else:
+    qrcode = qr.make(link)
+    qrcode.save(name + '.png')
